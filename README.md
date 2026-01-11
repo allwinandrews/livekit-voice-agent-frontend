@@ -1,5 +1,5 @@
 Live demo: https://livekit-voice-agent-frontend.vercel.app/
-Backend repo: [link to your Python repo](https://github.com/allwinandrews/livekit-python-voice-agent)
+Backend repo: https://github.com/allwinandrews/livekit-python-voice-agent/
 
 # Agent Starter for React
 
