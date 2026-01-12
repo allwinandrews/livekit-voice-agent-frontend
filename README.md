@@ -1,35 +1,41 @@
-Live demo: https://livekit-voice-agent-frontend.vercel.app/
+Live demo: https://livekit-voice-agent-frontend.vercel.app/  
 Backend repo: https://github.com/allwinandrews/livekit-python-voice-agent/
 
-# Agent Starter for React
+# LiveKit Voice Agent – React Frontend
 
-This is a starter template for [LiveKit Agents](https://docs.livekit.io/agents) that provides a simple voice interface using the [LiveKit JavaScript SDK](https://github.com/livekit/client-sdk-js). It supports [voice](https://docs.livekit.io/agents/start/voice-ai), [transcriptions](https://docs.livekit.io/agents/build/text/), and [virtual avatars](https://docs.livekit.io/agents/integrations/avatar).
+This is a React + Next.js frontend for a Python-based **LiveKit voice agent**, built using the official [LiveKit JavaScript SDK](https://github.com/livekit/client-sdk-js).
 
-Also available for:
-[Android](https://github.com/livekit-examples/agent-starter-android) • [Flutter](https://github.com/livekit-examples/agent-starter-flutter) • [Swift](https://github.com/livekit-examples/agent-starter-swift) • [React Native](https://github.com/livekit-examples/agent-starter-react-native)
+The frontend provides a real-time voice interface that connects to a deployed LiveKit Agent backend and supports:
 
-<picture>
-  <source srcset="./.github/assets/readme-hero-dark.webp" media="(prefers-color-scheme: dark)">
-  <source srcset="./.github/assets/readme-hero-light.webp" media="(prefers-color-scheme: light)">
-  <img src="./.github/assets/readme-hero-light.webp" alt="App screenshot">
-</picture>
+- Voice input/output
+- Live transcriptions
+- Optional chat input
+- Camera and screen sharing (optional)
 
-### Features:
+This project is based on the official **agent-starter-react** template and adapted to work with a custom Python agent implementation.
+
+---
+
+## Features
 
 - Real-time voice interaction with LiveKit Agents
+- Microphone capture and audio playback
+- Live transcript view
 - Camera video streaming support
 - Screen sharing capabilities
-- Audio visualization and level monitoring
-- Virtual avatar integration
-- Light/dark theme switching with system preference detection
-- Customizable branding, colors, and UI text via configuration
+- Audio level visualization
+- Light/dark theme with system preference detection
+- Configurable branding, UI text, and feature flags
 
-This template is built with Next.js and is free for you to use or modify as you see fit.
+This frontend is production-ready and deployed on **Vercel**.
 
-### Project structure
+---
+
+## Project structure
 
 ```
-agent-starter-react/
+
+livekit-voice-agent-frontend/
 ├── app/
 │   ├── (app)/
 │   ├── api/
@@ -39,45 +45,60 @@ agent-starter-react/
 │   └── layout.tsx
 ├── components/
 │   ├── livekit/
-│   ├── ui/
-│   ├── app.tsx
-│   ├── session-view.tsx
-│   └── welcome.tsx
+│   ├── app/
+│   └── ui/
 ├── hooks/
 ├── lib/
 ├── public/
 └── package.json
-```
 
-## Getting started
+````
 
-> [!TIP]
-> If you'd like to try this application without modification, you can deploy an instance in just a few clicks with [LiveKit Cloud Sandbox](https://cloud.livekit.io/projects/p_/sandbox/templates/agent-starter-react).
+---
 
-[![Open on LiveKit](https://img.shields.io/badge/Open%20on%20LiveKit%20Cloud-002CF2?style=for-the-badge&logo=external-link)](https://cloud.livekit.io/projects/p_/sandbox/templates/agent-starter-react)
+## Getting started (local development)
 
-Run the following command to automatically clone this template.
-
-```bash
-lk app create --template agent-starter-react
-```
-
-Then run the app with:
+Clone the repository and install dependencies:
 
 ```bash
 pnpm install
+````
+
+Run the development server:
+
+```bash
 pnpm dev
 ```
 
-And open http://localhost:3000 in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You'll also need an agent to speak with. Try our starter agent for [Python](https://github.com/livekit-examples/agent-starter-python), [Node.js](https://github.com/livekit-examples/agent-starter-node), or [create your own from scratch](https://docs.livekit.io/agents/start/voice-ai/).
+> You must have a running LiveKit Agent backend for the frontend to connect to.
+
+---
+
+## Backend dependency
+
+This frontend is designed to work with a **Python LiveKit Agent backend**.
+
+Backend repository:
+[https://github.com/allwinandrews/livekit-python-voice-agent/](https://github.com/allwinandrews/livekit-python-voice-agent/)
+
+The backend handles:
+
+* Speech-to-text
+* LLM inference
+* Text-to-speech
+* Conversation logic
+
+No frontend changes are required for backend **Stage 2 (state-based conversation flow)** updates.
+
+---
 
 ## Configuration
 
-This starter is designed to be flexible so you can adapt it to your specific agent use case. You can easily configure it to work with different types of inputs and outputs:
+The frontend is highly configurable via `app-config.ts`.
 
-#### Example: App configuration (`app-config.ts`)
+### Example (`app-config.ts`)
 
 ```ts
 export const APP_CONFIG_DEFAULTS: AppConfig = {
@@ -98,35 +119,41 @@ export const APP_CONFIG_DEFAULTS: AppConfig = {
 
   // agent dispatch configuration
   agentName: undefined,
-
-  // LiveKit Cloud Sandbox configuration
   sandboxId: undefined,
 };
 ```
 
-You can update these values in [`app-config.ts`](./app-config.ts) to customize branding, features, and UI text for your deployment.
+---
 
-> [!NOTE]
-> The `sandboxId` is for the LiveKit Cloud Sandbox environment.
-> It is not used for local development.
+## Environment variables
 
-#### Environment Variables
-
-You'll also need to configure your LiveKit credentials in `.env.local` (copy `.env.example` if you don't have one):
+Create `.env.local` from `.env.example` and set:
 
 ```env
 LIVEKIT_API_KEY=your_livekit_api_key
 LIVEKIT_API_SECRET=your_livekit_api_secret
 LIVEKIT_URL=https://your-livekit-server-url
 
-# Agent dispatch (https://docs.livekit.io/agents/server/agent-dispatch)
-# Leave AGENT_NAME blank to enable automatic dispatch
-# Provide an agent name to enable explicit dispatch
+# Leave blank for automatic agent dispatch
 AGENT_NAME=
 ```
 
-These are required for the voice agent functionality to work with your LiveKit project.
+These values must match the LiveKit project where the backend agent is deployed.
+
+---
+
+## Deployment
+
+* **Frontend**: Deployed on Vercel
+* **Backend**: Deployed on LiveKit Cloud
+
+Once deployed, users can talk to the agent directly from the browser via the live demo link.
+
+---
 
 ## Contributing
 
-This template is open source and we welcome contributions! Please open a PR or issue through GitHub, and don't forget to join us in the [LiveKit Community Slack](https://livekit.io/join-slack)!
+This project is based on LiveKit’s open-source starter template. Contributions are welcome via pull requests or issues.
+
+Join the LiveKit Community Slack for support and discussion:
+[https://livekit.io/join-slack](https://livekit.io/join-slack)
